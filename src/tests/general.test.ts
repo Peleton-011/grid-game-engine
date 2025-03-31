@@ -1,8 +1,8 @@
 
-import { Board, Cell } from "../src/GridEngine";
-import { RectangularTopology } from "../src/Topology";
-import { RuleSet } from "../src/RulesEngine";
-import { backtrackingSolver } from "../src/Solver";
+import { Board, Cell } from "../GridEngine";
+import { RectangularTopology } from "../Topology";
+import { RuleSet } from "../RulesEngine";
+import { backtrackingSolver } from "../Solver";
 
 // A dummy RuleSet for testing purposes that always allows a move.
 class DummyRuleSet extends RuleSet {
