@@ -8,10 +8,12 @@ import {
 	runSudokuExample,
 	createSudokuBoard,
 	printBoard,
+    generateRandomPuzzle,
 } from "./Games/Sudoku";
 
 try {
-	const sudokuBoard = runRandomSudoku();
+	const sudokuBoard = generateRandomPuzzle();
+    printBoard(sudokuBoard);
 	console.log("Sudoku board solved:");
 } catch (err) {
 	console.error(err);

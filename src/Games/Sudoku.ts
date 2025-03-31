@@ -2,7 +2,7 @@
 import { Board, Cell } from "../GridEngine";
 import { RectangularTopology } from "../Topology";
 import { RuleSet } from "../RulesEngine";
-import { backtrackingSolver, randomBacktrackingSolver } from "../Solver";
+import { backtrackingSolver, randomBacktrackingSolver, solutionChecker } from "../Solver";
 
 /**
  * Helper function to assign a region id to each cell.
@@ -117,6 +117,39 @@ export function createSudokuBoard(initialPuzzle?: (number | null)[][]): Board {
 	return board;
 }
 
+export function fullSudokuBoard(): Board {
+	const board = createSudokuBoard();
+	const sudokuRules = new SudokuRuleSet();
+
+	randomBacktrackingSolver(board, sudokuRules, 9);
+	return board;
+}
+
+export function carveBoard (board: Board): Board {
+	const sudokuRules = new SudokuRuleSet();
+    let looping = true;
+    while (looping) {
+        // Remove a random cell.
+        const cell = board.cells[Math.floor(Math.random() * board.cells.length)];
+        const backupCell = { ...cell };
+        cell.value = null;
+        if (solutionChecker(board, sudokuRules, 9).multipleSolutions) {
+            cell.value = backupCell.value;
+            //1% chance to break the while loop
+            if (Math.random() < 0.01) {
+                looping = false;
+            }
+        }      
+    }
+    return board;
+};
+
+export function generateRandomPuzzle(): Board {
+    const board = fullSudokuBoard();
+
+    return carveBoard(board);
+}
+
 /**
  * Example usage: Solve a sample Sudoku puzzle.
  */
@@ -158,9 +191,9 @@ export function runRandomSudoku(): void {
 	const board = createSudokuBoard();
 	const sudokuRules = new SudokuRuleSet();
 
-    console.log("Unsolved Sudoku:");
-    printBoard(board);
-    
+	console.log("Unsolved Sudoku:");
+	printBoard(board);
+
 	if (randomBacktrackingSolver(board, sudokuRules, 9)) {
 		console.log("Solved Sudoku:");
 		printBoard(board);
