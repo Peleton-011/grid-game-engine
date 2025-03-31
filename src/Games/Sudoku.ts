@@ -2,7 +2,11 @@
 import { Board, Cell } from "../GridEngine";
 import { RectangularTopology } from "../Topology";
 import { RuleSet } from "../RulesEngine";
-import { backtrackingSolver, randomBacktrackingSolver, solutionChecker } from "../Solver";
+import {
+	backtrackingSolver,
+	randomBacktrackingSolver,
+	solutionChecker,
+} from "../Solver";
 
 /**
  * Helper function to assign a region id to each cell.
@@ -125,29 +129,42 @@ export function fullSudokuBoard(): Board {
 	return board;
 }
 
-export function carveBoard (board: Board): Board {
+export function carveBoard(board: Board): {board: Board, voids: number[]} {
 	const sudokuRules = new SudokuRuleSet();
-    let looping = true;
-    while (looping) {
-        // Remove a random cell.
-        const cell = board.cells[Math.floor(Math.random() * board.cells.length)];
-        const backupCell = { ...cell };
-        cell.value = null;
-        if (solutionChecker(board, sudokuRules, 9).multipleSolutions) {
-            cell.value = backupCell.value;
-            //1% chance to break the while loop
-            if (Math.random() < 0.01) {
-                looping = false;
-            }
-        }      
-    }
-    return board;
-};
+
+	printBoard(board);
+
+    const voids = []
+	//For each cell in the board
+	console.log(board.cells.length);
+	for (let i = 0; i < board.cells.length; i++) {
+		const newCells = board.cells.map((c, index) =>
+			i === index ? { ...c, value: null } : { ...c }
+		);
+
+		if (
+			solutionChecker(
+				new Board(board.topology, board.width, board.height, {
+					cells: newCells,
+				}),
+				sudokuRules,
+				9
+			).multipleSolutions
+		) {
+			continue; //If there are multiple solutions, try again
+		}
+		voids.push(i);
+	}
+	return {board, voids};
+}
 
 export function generateRandomPuzzle(): Board {
-    const board = fullSudokuBoard();
+	const board = fullSudokuBoard();
 
-    return carveBoard(board);
+	const carvedBoard = carveBoard(board);
+
+    console.log(carvedBoard.voids);
+    return carvedBoard.board;
 }
 
 /**
