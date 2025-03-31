@@ -1,4 +1,11 @@
 {
+    "scripts": {
+        "start": "node index.js",
+        "dev": "nodemon index.js",
+        "build": "webpack",
+        "test": "jest"
+    
+    },
   "dependencies": {
     "jest": "^29.7.0"
   }
