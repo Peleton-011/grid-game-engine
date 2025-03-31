@@ -157,7 +157,11 @@ export function runSudokuExample(): void {
 export function runRandomSudoku(): void {
 	const board = createSudokuBoard();
 	const sudokuRules = new SudokuRuleSet();
-	if (backtrackingSolver(board, sudokuRules)) {
+
+    console.log("Unsolved Sudoku:");
+    printBoard(board);
+    
+	if (backtrackingSolver(board, sudokuRules, 9)) {
 		console.log("Solved Sudoku:");
 		printBoard(board);
 	} else {
