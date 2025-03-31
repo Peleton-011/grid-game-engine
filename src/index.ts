@@ -3,6 +3,21 @@ import { RectangularTopology } from "./Topology";
 import { RuleSet } from "./RulesEngine";
 import { backtrackingSolver } from "./Solver";
 
+import {
+	runRandomSudoku,
+	runSudokuExample,
+	createSudokuBoard,
+	printBoard,
+} from "./Games/Sudoku";
+
+try {
+	const sudokuBoard = runRandomSudoku();
+	console.log("Sudoku board solved:");
+} catch (err) {
+	console.error(err);
+}
+
+/*
 // Define a simple rule set that allows any value (for demonstration)
 class SimpleRuleSet extends RuleSet {
   validateMove(board: Board, cell: any, value: number): boolean {
@@ -23,3 +38,4 @@ const solved = backtrackingSolver(board, ruleSet);
 console.log("Solved:", solved);
 console.log("Final Board State:");
 console.log(board.cells.map(cell => `[${cell.x},${cell.y}]: ${cell.value}`).join("\n"));
+*/
