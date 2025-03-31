@@ -2,7 +2,7 @@
 import { Board, Cell } from "../GridEngine";
 import { RectangularTopology } from "../Topology";
 import { RuleSet } from "../RulesEngine";
-import { backtrackingSolver } from "../Solver";
+import { backtrackingSolver, randomBacktrackingSolver } from "../Solver";
 
 /**
  * Helper function to assign a region id to each cell.
@@ -161,7 +161,7 @@ export function runRandomSudoku(): void {
     console.log("Unsolved Sudoku:");
     printBoard(board);
     
-	if (backtrackingSolver(board, sudokuRules, 9)) {
+	if (randomBacktrackingSolver(board, sudokuRules, 9)) {
 		console.log("Solved Sudoku:");
 		printBoard(board);
 	} else {
